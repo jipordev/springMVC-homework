@@ -6,6 +6,7 @@ import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -35,21 +36,41 @@ public class TodoListRepository  implements TodoRepo {
     }
 
     @Override
-    public List<Todo> delete(List<Todo> todos,Integer id) {
-        todos.removeIf(todo -> todo.getId().equals(id));
-        return todos;
+    public Todo delete(Integer id) {
+        Todo deletedTodo = null;
+        Iterator<Todo> iterator = todoList.iterator();
+        while (iterator.hasNext()) {
+            Todo todo = iterator.next();
+            if (todo.getId().equals(id)) {
+                deletedTodo = todo;
+                iterator.remove();
+                break;
+            }
+        }
+        return deletedTodo;
     }
 
     @Override
-    public Todo update(List<Todo> todoList) {
-        return null;
+    public Todo update(Integer id, Todo updatedTodo) {
+        return todoList.stream()
+                .filter(todo -> todo.getId().equals(id))
+                .findFirst()
+                .map(todo -> {
+                    int index = todoList.indexOf(todo);
+                    updatedTodo.setId(id);
+                    updatedTodo.setCreatedAt(LocalDate.now());
+                    todoList.set(index, updatedTodo);
+                    return updatedTodo;
+                })
+                .orElse(null);
     }
 
+
     @Override
-    public List<Todo> searchList(String task) {;
+    public List<Todo> searchList(String task) {
         return todoList
                 .stream()
-                .filter(todo -> todo.getTask().contains(task))
+                .filter(todo -> todo.getTask().toLowerCase().contains(task))
                 .collect(Collectors.toList());
     }
 
@@ -59,5 +80,13 @@ public class TodoListRepository  implements TodoRepo {
                 .filter(todo -> todo.getId().equals(id))
                 .findFirst()
                 .orElse(null);
+    }
+
+    @Override
+    public List<Todo> searchByIsDone(Boolean isDone) {
+        return todoList
+                .stream()
+                .filter(todo -> todo.getIsDone() == isDone)
+                .collect(Collectors.toList());
     }
 }

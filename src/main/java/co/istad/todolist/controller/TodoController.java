@@ -27,7 +27,7 @@ public class TodoController {
     }
     @GetMapping("/todo/{id}")
     public String getById(@PathVariable("id") Integer id, Model model){
-        model.addAttribute("todos", todoListService.getById(id));
+        model.addAttribute("todoList", todoListService.getById(id));
         return "index";
     }
 
@@ -47,10 +47,34 @@ public class TodoController {
         return ("add");
     }
 
-    @GetMapping("/todo/search")
-    public String searchTask(@RequestParam("task") String task, Model model) {
-        model.addAttribute("todoLists", todoListService.searchList(task));
-        return "index"; // Return only the table fragment of the index page
+    @GetMapping("/todo/delete/{id}")
+    public String deleteTodoById(@PathVariable("id") Integer id){
+        todoListService.delete(id);
+        return "redirect:/todo";
     }
+
+    @GetMapping("/todo/update/{id}")
+    public String showUpdateForm(@PathVariable("id") Integer id, Model model){
+        Todo todo = todoListService.getById(id);
+        model.addAttribute("todo", todo);
+        return "update";
+    }
+    @PostMapping("/todo/update")
+    public String updateTodo(@ModelAttribute Todo todo) {
+        todoListService.update(todo);
+        return "redirect:/todo";
+    }
+    @GetMapping("/todo/search")
+    public String searchTasks(@RequestParam(value = "task", required = false) String task,
+                              @RequestParam(value = "isDone", required = false) Boolean isDone,
+                              Model model) {
+        if (task != null) {
+            model.addAttribute("todoList", todoListService.searchList(task));
+        } else if (isDone != null) {
+            model.addAttribute("todoList", todoListService.searchByIsDone(isDone));
+        }
+        return "index";
+    }
+
 
 }

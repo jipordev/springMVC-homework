@@ -7,8 +7,9 @@ import java.util.List;
 public interface TodoListService {
     List<Todo> getAll();
     Todo create(Todo todo);
-    List<Todo> delete(List<Todo> todos, Integer id);
+    Todo delete(Integer id);
     Todo update(Todo todo);
     List<Todo> searchList(String task);
     Todo getById(Integer id);
+    List<Todo> searchByIsDone(Boolean isDone);
 }

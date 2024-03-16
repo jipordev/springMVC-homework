@@ -25,13 +25,13 @@ public class TodoListServiceImpl implements TodoListService{
     }
 
     @Override
-    public List<Todo> delete(List<Todo> todos, Integer id) {
-        return null;
+    public Todo delete(Integer id) {
+        return todoListRepository.delete(id);
     }
 
     @Override
     public Todo update(Todo todo) {
-        return null;
+        return todoListRepository.update(todo.getId(), todo);
     }
 
     @Override
@@ -41,5 +41,10 @@ public class TodoListServiceImpl implements TodoListService{
 
     public Todo getById(Integer id) {
         return todoListRepository.getById(id);
+    }
+
+    @Override
+    public List<Todo> searchByIsDone(Boolean isDone) {
+        return todoListRepository.searchByIsDone(isDone);
     }
 }

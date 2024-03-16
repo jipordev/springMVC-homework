@@ -2,29 +2,33 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Add Todo</title>
+    <title>Update Todo</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
 <body class="bg-gray-100">
 <div class="container mx-auto">
-    <h2 class="text-3xl text-center text-green-500 text-2xl font-bold mb-4 my-4">Add new todo</h2>
+    <h2 class="text-center text-2xl font-bold my-4">Update Todo</h2>
     <div class="border rounded-4 p-4 mx-auto" style="width: 30%; background-color: whitesmoke;">
-        <form th:action="@{/add}" th:object="${todo}" method="post">
+        <form th:action="@{/todo/update}" th:object="${todo}" method="post">
             <div class="mb-3">
                 <label class="block mb-1">Task</label>
                 <input type="text" class="form-input w-full" th:field="*{task}">
             </div>
             <div class="mb-3">
                 <label class="block mb-1">Description</label>
-                <input type="text" class="form-input w-full" th:field="*{description}">
+                <input type="text" class="form-input w-full" th:field="*{description}" value="${todo.description}">
             </div>
-            <input type="hidden" th:field="*{isDone}" th:value="false">
+            <div class="mb-3">
+                <label class="block mb-1">Is Done</label>
+                <input type="checkbox" class="form-checkbox" th:field="*{isDone}">
+            </div>
+            <input type="hidden" th:field="*{id}">
             <div class="mb-3">
                 <label class="block mb-1">Created At</label>
-                <p class="form-control" th:text="*{createdAt}"></p>
+                <p class="form-control" th:text="${todo.createdAt}"></p>
             </div>
             <div class="mb-3">
-                <input type="submit" class="text-white block w-max font-semibold mx-auto my-4 px-8 py-2 bg-blue-500 rounded-lg" value="Add">
+                <input type="submit" class="text-white block w-max font-semibold mx-auto my-4 px-8 py-2 bg-blue-500 rounded-lg" value="Update">
             </div>
         </form>
     </div>
