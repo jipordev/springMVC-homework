@@ -1,0 +1,61 @@
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Add Todo</title>
+        <!-- Tailwind CSS CDN -->
+        <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    </head>
+    <body class="bg-gray-100 mx-10">
+    <div class="container mx-auto">
+        <h2 class="text-center text-green-500 text-2xl font-bold mb-4 my-4">Todo List</h2>
+        <div class="overflow-x-auto">
+            <form th:action="@{/todo/search}" method="get" class="mb-4">
+                <input type="text" name="task" placeholder="Search by task" class="form-input w-max px-10 py-2 rounded-md border border-gray-300 focus:outline-none focus:border-indigo-500">
+                <button type="submit" class="ml-2 px-4 py-2 bg-blue-500 text-white rounded-md">Search</button>
+            </form>
+
+            <table class="table-auto min-w-full">
+                <thead>
+                    <tr class="bg-gray-200">
+                        <th class="px-4 py-2 text-gray-600">Todo ID</th>
+                        <th class="px-4 py-2 text-gray-600">Todo TASK</th>
+                        <th class="px-4 py-2 text-gray-600">Todo DESCRIPTION</th>
+                        <th class="px-4 py-2 text-gray-600">Is_DONE</th>
+                        <th class="px-4 py-2 text-gray-600">CREATED AT</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="todo : ${todoList}" class="border-b border-gray-200">
+                        <td class="px-4 py-2 font-normal" th:text="${todo.id}"></td>
+                        <td class="px-4 py-2 font-normal" th:text="${todo.task}"></td>
+                        <td class="px-4 py-2 font-normal" th:text="${todo.description}"></td>
+                        <td class="px-4 py-2 font-normal" th:text="${todo.isDone} ? 'Yes' : 'No'"></td>
+                        <td class="px-4 py-2 font-normal" th:text="${todo.createdAt}"></td>
+                    </tr>
+                </tbody>
+                <tbody>
+                <tr th:each="todo : ${todos}" class="border-b border-gray-200">
+                    <td class="px-4 py-2 font-normal" th:text="${todo.id}"></td>
+                    <td class="px-4 py-2 font-normal" th:text="${todo.task}"></td>
+                    <td class="px-4 py-2 font-normal" th:text="${todo.description}"></td>
+                    <td class="px-4 py-2 font-normal" th:text="${todo.isDone} ? 'Yes' : 'No'"></td>
+                    <td class="px-4 py-2 font-normal" th:text="${todo.createdAt}"></td>
+                </tr>
+                </tbody>
+                <tbody>
+                <tr th:each="todo : ${todoLists}" class="border-b border-gray-200">
+                    <td class="px-4 py-2 font-normal" th:text="${todo.id}"></td>
+                    <td class="px-4 py-2 font-normal" th:text="${todo.task}"></td>
+                    <td class="px-4 py-2 font-normal" th:text="${todo.description}"></td>
+                    <td class="px-4 py-2 font-normal" th:text="${todo.isDone} ? 'Yes' : 'No'"></td>
+                    <td class="px-4 py-2 font-normal" th:text="${todo.createdAt}"></td>
+                </tr>
+                </tbody>
+            </table>
+            <a href="/todo/add" class="text-white block w-max font-semibold mx-auto my-4 px-8 py-2 bg-blue-500 rounded-lg">Add</a>
+
+        </div>
+    </div>
+    </body>
+    </html>
